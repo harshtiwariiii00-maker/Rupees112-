@@ -1,0 +1,250 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RUPEE112 Payment</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f3f4f6;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.navbar {
+  background: white;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.brand span {
+  color: #e32626;
+}
+
+.scan {
+  background: #4267c9;
+  color: white;
+  border-radius: 9px;
+  padding: 10px 13px;
+  font-size: 12px;
+}
+
+.header {
+  background: #f32121;
+  color: white;
+  text-align: center;
+  padding: 25px 10px;
+}
+
+.header h3 {
+  margin: 0;
+}
+
+.header p {
+  font-size: 12px;
+}
+
+.container {
+  background: white;
+  max-width: 480px;
+  min-height: 850px;
+  margin: auto;
+  padding: 35px 28px;
+  text-align: center;
+}
+
+.heading {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.amount {
+  color: #176b48;
+  font-size: 27px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.fixed {
+  color: #999;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+#qrcode {
+  margin: 40px auto 25px;
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#qrcode img {
+  width: 220px;
+  height: 220px;
+}
+
+.info {
+  color: #888;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 30px 0 18px;
+}
+
+.upi-box {
+  border: 1px solid #eee;
+  border-radius: 15px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+#upiText {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.copy {
+  background: #c92525;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 17px;
+  font-weight: bold;
+}
+
+.pay {
+  width: 100%;
+  margin-top: 35px;
+  background: #176b48;
+  color: white;
+  padding: 17px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.footer {
+  margin-top: 30px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #999;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <div class="brand">
+    <span>₹</span> RUPEE112
+  </div>
+  <div class="scan">Scan & Pay</div>
+</div>
+
+<div class="header">
+  <h3>RUPEE112 PAYMENT</h3>
+  <p>Scan the QR code or copy the UPI ID below</p>
+</div>
+
+<div class="container">
+
+  <div class="heading">SCAN & PAY</div>
+
+  <div class="amount">₹80,000</div>
+
+  <div class="fixed">Fixed payment amount</div>
+
+  <div id="qrcode"></div>
+
+  <div class="info">
+    Scan the QR code above. Before paying,
+    confirm the recipient and amount in your UPI app.
+  </div>
+
+  <div class="upi-box">
+    <span id="upiText">doraemon999@axl</span>
+    <button class="copy" onclick="copyUPI()">
+      COPY
+    </button>
+  </div>
+
+  <button class="pay" onclick="payUPI()">
+    Pay with UPI app
+  </button>
+
+  <div class="footer">
+    Verify the recipient name and amount in your UPI
+    application before making payment. Never share
+    your UPI PIN or OTP with anyone.
+  </div>
+
+</div>
+
+<script>
+
+// PAYMENT DETAILS
+
+const UPI_ID = "doraemon999@axl";
+
+const AMOUNT = "80000";
+
+const CURRENCY = "INR";
+
+// UPI PAYMENT LINK
+
+const upiLink =
+  "upi://pay?" +
+  "pa=" + encodeURIComponent(UPI_ID) +
+  "&am=" + AMOUNT +
+  "&cu=" + CURRENCY;
+
+// GENERATE QR
+
+new QRCode(document.getElementById("qrcode"), {
+  text: upiLink,
+  width: 220,
+  height: 220,
+  correctLevel: QRCode.CorrectLevel.M
+});
+
+// COPY UPI
+
+function copyUPI() {
+  navigator.clipboard.writeText(UPI_ID)
+    .then(() => alert("UPI ID Copied!"))
+    .catch(() => alert("UPI ID: " + UPI_ID));
+}
+
+// OPEN UPI APP
+
+function payUPI() {
+  window.location.href = upiLink;
+}
+
+</script>
+
+</body>
+</html>
